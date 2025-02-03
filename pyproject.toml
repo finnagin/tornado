@@ -18,7 +18,7 @@ test-skip = "*_universal2:arm64"
 
 [tool.cibuildwheel.windows]
 archs = "AMD64 x86 ARM64"
-build = "cp39* cp310* cp311* cp312* cp313* *win_arm64"
+# build = "cp39* cp310* cp311* cp312* cp313* *win_arm64"
 # TODO: figure out what's going on with these occasional log messages.
 test-skip = "*-win_arm64"
 test-command = "python -m tornado.test --fail-if-logs=false"
