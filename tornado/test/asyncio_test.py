@@ -207,8 +207,8 @@ class SelectorThreadLeakTest(unittest.TestCase):
 class AnyThreadEventLoopPolicyTest(unittest.TestCase):
     def setUp(self):
         py_ver = sys.version_info
-        # 3458 - This will work until 3.16 when the function is fully removed
         if (3, 14, 0) <= py_ver:
+            # 3458 - This will work until 3.16 when the function is fully removed
             setup_with_context_manager(self, warnings.catch_warnings())
             warnings.filterwarnings(
                 "ignore",
