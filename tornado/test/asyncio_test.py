@@ -15,6 +15,7 @@ import threading
 import time
 import unittest
 import warnings
+import sys
 
 from concurrent.futures import ThreadPoolExecutor
 from tornado import gen
