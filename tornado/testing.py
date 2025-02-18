@@ -159,7 +159,7 @@ class AsyncTestCase(unittest.TestCase):
         if type(self).get_new_ioloop is not AsyncTestCase.get_new_ioloop:
             warnings.warn("get_new_ioloop is deprecated", DeprecationWarning)
         self.io_loop = self.get_new_ioloop()
-        if ((3, 14, 0) <= py_ver):
+        if (3, 14, 0) <= py_ver:
             # Early releases in the Python 3.10 and 3.1 series had deprecation
             # warnings that were later reverted; we must suppress them here.
             setup_with_context_manager(self, warnings.catch_warnings())
