@@ -167,6 +167,16 @@ class AsyncTestCase(unittest.TestCase):
                 message="'asyncio.set_event_loop' is deprecated",
                 category=DeprecationWarning,
             )
+            warnings.filterwarnings(
+                "ignore",
+                message="'asyncio.set_event_loop_policy' is deprecated",
+                category=DeprecationWarning,
+            )
+            warnings.filterwarnings(
+                "ignore",
+                message="'asyncio.DefaultEventLoopPolicy' is deprecated",
+                category=DeprecationWarning,
+            )
         asyncio.set_event_loop(self.io_loop.asyncio_loop)  # type: ignore[attr-defined]
 
     def tearDown(self) -> None:
