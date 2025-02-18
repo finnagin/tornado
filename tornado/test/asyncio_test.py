@@ -114,6 +114,15 @@ class LeakTest(unittest.TestCase):
         AsyncIOLoop(make_current=False).close()
         # If we don't clean up after ourselves other tests may fail on
         # py34.
+        py_ver = sys.version_info
+        if (3, 14, 0) <= py_ver:
+            # 3458 - This will work until 3.16 when the function is fully removed
+            setup_with_context_manager(self, warnings.catch_warnings())
+            warnings.filterwarnings(
+                "ignore",
+                message="'asyncio.set_event_loop_policy' is deprecated",
+                category=DeprecationWarning,
+            )
         self.orig_policy = asyncio.get_event_loop_policy()
         asyncio.set_event_loop_policy(asyncio.DefaultEventLoopPolicy())
 
