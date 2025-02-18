@@ -25,7 +25,7 @@ from tornado.platform.asyncio import (
     AnyThreadEventLoopPolicy,
     AddThreadSelectorEventLoop,
 )
-from tornado.testing import AsyncTestCase, gen_test
+from tornado.testing import AsyncTestCase, gen_test, setup_with_context_manager
 
 
 class AsyncIOLoopTest(AsyncTestCase):
@@ -205,6 +205,14 @@ class SelectorThreadLeakTest(unittest.TestCase):
 
 class AnyThreadEventLoopPolicyTest(unittest.TestCase):
     def setUp(self):
+        py_ver = sys.version_info
+        if (3, 14, 0) <= py_ver:
+            setup_with_context_manager(self, warnings.catch_warnings())
+            warnings.filterwarnings(
+                "ignore",
+                message="'asyncio.get_event_loop_policy' is deprecated",
+                category=DeprecationWarning,
+            )
         self.orig_policy = asyncio.get_event_loop_policy()
         self.executor = ThreadPoolExecutor(1)
 
