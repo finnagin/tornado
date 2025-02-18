@@ -219,7 +219,15 @@ class AnyThreadEventLoopPolicyTest(unittest.TestCase):
         self.executor = ThreadPoolExecutor(1)
 
     def tearDown(self):
-        self.orig_policy = asyncio.get_event_loop_policy()
+        py_ver = sys.version_info
+        if (3, 14, 0) <= py_ver:
+            # 3458 - This will work until 3.16 when the function is fully removed
+            setup_with_context_manager(self, warnings.catch_warnings())
+            warnings.filterwarnings(
+                "ignore",
+                message="'asyncio.set_event_loop_policy' is deprecated",
+                category=DeprecationWarning,
+            )
         asyncio.set_event_loop_policy(self.orig_policy)
         self.executor.shutdown()
 
