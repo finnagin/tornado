@@ -123,6 +123,11 @@ class LeakTest(unittest.TestCase):
                 message="'asyncio.get_event_loop_policy' is deprecated",
                 category=DeprecationWarning,
             )
+            warnings.filterwarnings(
+                "ignore",
+                message="'asyncio.DefaultEventLoopPolicy' is deprecated",
+                category=DeprecationWarning,
+            )
         self.orig_policy = asyncio.get_event_loop_policy()
         asyncio.set_event_loop_policy(asyncio.DefaultEventLoopPolicy())
 
