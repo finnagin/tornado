@@ -174,6 +174,11 @@ class AsyncTestCase(unittest.TestCase):
             )
             warnings.filterwarnings(
                 "ignore",
+                message="'asyncio.get_event_loop_policy' is deprecated",
+                category=DeprecationWarning,
+            )
+            warnings.filterwarnings(
+                "ignore",
                 message="'asyncio.DefaultEventLoopPolicy' is deprecated",
                 category=DeprecationWarning,
             )
