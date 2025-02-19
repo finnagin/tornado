@@ -9,7 +9,7 @@ from tornado.iostream import IOStream
 from tornado.log import app_log
 from tornado.tcpserver import TCPServer
 from tornado.test.util import skipIfNonUnix
-from tornado.testing import AsyncTestCase, ExpectLog, bind_unused_port, gen_test
+from tornado.testing import AsyncTestCase, ExpectLog, bind_unused_port, gen_test, setup_with_context_manager
 
 from typing import Tuple
 
@@ -125,6 +125,15 @@ class TestMultiprocess(unittest.TestCase):
     # stdout stream) and then exits.
     def run_subproc(self, code: str) -> Tuple[str, str]:
         try:
+            py_ver = sys.version_info
+            if (3, 14, 0) <= py_ver:
+                # 3458 - This will work until 3.16 when the function is fully removed
+                setup_with_context_manager(self, warnings.catch_warnings())
+                warnings.filterwarnings(
+                    "ignore",
+                    message="'asyncio.DefaultEventLoopPolicy' is deprecated",
+                    category=DeprecationWarning,
+                )
             result = subprocess.run(
                 [sys.executable, "-Werror::DeprecationWarning"],
                 capture_output=True,
