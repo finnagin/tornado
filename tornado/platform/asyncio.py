@@ -35,6 +35,7 @@ import typing
 import warnings
 from tornado.gen import convert_yielded
 from tornado.ioloop import IOLoop, _Selectable
+from tornado.testing import setup_with_context_manager
 
 from typing import (
     Any,
@@ -391,6 +392,15 @@ if sys.platform == "win32" and hasattr(asyncio, "WindowsSelectorEventLoopPolicy"
     # interface for composing policies so pick the right base.
     _BasePolicy = asyncio.WindowsSelectorEventLoopPolicy  # type: ignore
 else:
+    py_ver = sys.version_info
+    if (3, 14, 0) <= py_ver:
+        # 3458 - This will work until 3.16 when the function is fully removed
+        setup_with_context_manager(self, warnings.catch_warnings())
+        warnings.filterwarnings(
+            "ignore",
+            message="'asyncio.DefaultEventLoopPolicy' is deprecated",
+            category=DeprecationWarning,
+        )
     _BasePolicy = asyncio.DefaultEventLoopPolicy
 
 
