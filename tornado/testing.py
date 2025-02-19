@@ -199,15 +199,6 @@ class AsyncTestCase(unittest.TestCase):
 
         # Clean up Subprocess, so it can be used again with a new ioloop.
         Subprocess.uninitialize()
-        py_ver = sys.version_info
-        if (3, 14, 0) <= py_ver:
-            # 3458 - This will work until 3.16 when the function is fully removed
-            setup_with_context_manager(self, warnings.catch_warnings())
-            warnings.filterwarnings(
-                "ignore",
-                message="'asyncio.set_event_loop' is deprecated",
-                category=DeprecationWarning,
-            )
         asyncio.set_event_loop(None)
         if not isinstance(self.io_loop, _NON_OWNED_IOLOOPS):
             # Try to clean up any file descriptors left open in the ioloop.
