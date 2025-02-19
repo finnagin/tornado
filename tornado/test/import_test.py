@@ -2,6 +2,9 @@
 import subprocess
 import sys
 import unittest
+import warnings
+from tornado.testing import setup_with_context_manager
+
 
 _import_everything = b"""
 # The event loop is not fork-safe, and it's easy to initialize an asyncio.Future
@@ -9,6 +12,16 @@ _import_everything = b"""
 # Explicitly disallow the default event loop so that an error will be raised
 # if something tries to touch it.
 import asyncio
+import sys
+import warnings
+py_ver = sys.version_info
+if (3, 14, 0) <= py_ver:
+    # 3458 - This will work until 3.16 when the function is fully removed
+    warnings.filterwarnings(
+        "ignore",
+        message="'asyncio.set_event_loop' is deprecated",
+        category=DeprecationWarning,
+    )
 asyncio.set_event_loop(None)
 
 import importlib
