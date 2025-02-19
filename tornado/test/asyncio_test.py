@@ -120,6 +120,11 @@ class LeakTest(unittest.TestCase):
             setup_with_context_manager(self, warnings.catch_warnings())
             warnings.filterwarnings(
                 "ignore",
+                message="'asyncio.set_event_loop_policy' is deprecated",
+                category=DeprecationWarning,
+            )
+            warnings.filterwarnings(
+                "ignore",
                 message="'asyncio.get_event_loop_policy' is deprecated",
                 category=DeprecationWarning,
             )
