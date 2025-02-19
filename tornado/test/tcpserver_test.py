@@ -3,6 +3,7 @@ import subprocess
 import sys
 import textwrap
 import unittest
+import warnings
 
 from tornado import gen
 from tornado.iostream import IOStream
