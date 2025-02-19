@@ -3,7 +3,6 @@ import subprocess
 import sys
 import textwrap
 import unittest
-import warnings
 
 from tornado import gen
 from tornado.iostream import IOStream
@@ -15,7 +14,6 @@ from tornado.testing import (
     ExpectLog,
     bind_unused_port,
     gen_test,
-    setup_with_context_manager,
 )
 
 from typing import Tuple
